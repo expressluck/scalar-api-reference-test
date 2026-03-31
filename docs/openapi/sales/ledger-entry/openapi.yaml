@@ -1,0 +1,74 @@
+openapi: 3.1.0
+info:
+  title: Sales Ledger Entry APIs
+  version: 1.0.0
+paths:
+  /sales/ledger-entries:
+    get:
+      tags:
+        - Sales / Ledger Entry
+      operationId: listSalesLedgerEntries
+      summary: List ledger entries
+      description: Returns accounting ledger entries from the sales domain.
+      parameters:
+        - in: query
+          name: fromDate
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: toDate
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: Ledger entries response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        entryId:
+                          type: string
+                          example: LEDGER-9001
+                        amount:
+                          type: number
+                          format: double
+                          example: 3499.95
+                        currency:
+                          type: string
+                          example: USD
+  /sales/ledger-entries/{entryId}:
+    get:
+      tags:
+        - Sales / Ledger Entry
+      operationId: getSalesLedgerEntry
+      summary: Get ledger entry by ID
+      parameters:
+        - in: path
+          name: entryId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Ledger entry details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  entryId:
+                    type: string
+                  amount:
+                    type: number
+                    format: double
+                  postedAt:
+                    type: string
+                    format: date-time

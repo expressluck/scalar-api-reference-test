@@ -1,0 +1,30 @@
+openapi: 3.1.0
+info:
+  title: Sample Commerce API (Distributed Index)
+  version: 1.0.0
+  description: |
+    Reference-only index that links distributed category/sub-category files via $ref.
+    Keep this for modular authoring, while docs/openapi/openapi.yaml is the bundled render spec for Scalar.
+paths:
+  /sales/customers:
+    $ref: ./sales/customer/openapi.yaml#/paths/~1sales~1customers
+  /sales/customers/{customerId}:
+    $ref: ./sales/customer/openapi.yaml#/paths/~1sales~1customers~1{customerId}
+  /sales/items:
+    $ref: ./sales/item/openapi.yaml#/paths/~1sales~1items
+  /sales/items/{itemId}:
+    $ref: ./sales/item/openapi.yaml#/paths/~1sales~1items~1{itemId}
+  /sales/ledger-entries:
+    $ref: ./sales/ledger-entry/openapi.yaml#/paths/~1sales~1ledger-entries
+  /sales/ledger-entries/{entryId}:
+    $ref: ./sales/ledger-entry/openapi.yaml#/paths/~1sales~1ledger-entries~1{entryId}
+  /consumer/customers/me:
+    $ref: ./consumer/customer/openapi.yaml#/paths/~1consumer~1customers~1me
+  /consumer/items/recommended:
+    $ref: ./consumer/item/openapi.yaml#/paths/~1consumer~1items~1recommended
+  /consumer/items/{itemId}/favorite:
+    $ref: ./consumer/item/openapi.yaml#/paths/~1consumer~1items~1{itemId}~1favorite
+  /consumer/ledger-entries/rewards:
+    $ref: ./consumer/ledger-entry/openapi.yaml#/paths/~1consumer~1ledger-entries~1rewards
+  /consumer/ledger-entries/rewards/{entryId}:
+    $ref: ./consumer/ledger-entry/openapi.yaml#/paths/~1consumer~1ledger-entries~1rewards~1{entryId}

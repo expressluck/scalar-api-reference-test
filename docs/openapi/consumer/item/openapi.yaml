@@ -1,0 +1,54 @@
+openapi: 3.1.0
+info:
+  title: Consumer Item APIs
+  version: 1.0.0
+paths:
+  /consumer/items/recommended:
+    get:
+      tags:
+        - Consumer / Item
+      operationId: listRecommendedConsumerItems
+      summary: List recommended items
+      description: Returns personalized recommended items for the current consumer.
+      responses:
+        "200":
+          description: Recommended items response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        itemId:
+                          type: string
+                          example: ITEM-100
+                        reason:
+                          type: string
+                          example: Similar to recent purchases
+  /consumer/items/{itemId}/favorite:
+    post:
+      tags:
+        - Consumer / Item
+      operationId: favoriteConsumerItem
+      summary: Mark item as favorite
+      parameters:
+        - in: path
+          name: itemId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Favorite action result.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  favorited:
+                    type: boolean
+                    example: true

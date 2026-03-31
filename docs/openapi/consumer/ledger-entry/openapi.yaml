@@ -1,0 +1,61 @@
+openapi: 3.1.0
+info:
+  title: Consumer Ledger Entry APIs
+  version: 1.0.0
+paths:
+  /consumer/ledger-entries/rewards:
+    get:
+      tags:
+        - Consumer / Ledger Entry
+      operationId: listConsumerRewardEntries
+      summary: List reward ledger entries
+      description: Returns reward-point ledger entries for the authenticated consumer.
+      responses:
+        "200":
+          description: Rewards ledger list response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        entryId:
+                          type: string
+                          example: REWARD-1
+                        points:
+                          type: integer
+                          example: 120
+                        type:
+                          type: string
+                          example: PurchaseBonus
+  /consumer/ledger-entries/rewards/{entryId}:
+    get:
+      tags:
+        - Consumer / Ledger Entry
+      operationId: getConsumerRewardEntry
+      summary: Get reward ledger entry by ID
+      parameters:
+        - in: path
+          name: entryId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Rewards ledger entry details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  entryId:
+                    type: string
+                  points:
+                    type: integer
+                  createdAt:
+                    type: string
+                    format: date-time

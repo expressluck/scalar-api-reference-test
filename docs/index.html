@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sample API Docs</title>
+    <link rel="stylesheet" href="./assets/site.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>Sample API Documentation</h1>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a class="active" href="./index.html">Docs</a>
+        <a href="./api-reference.html">API Reference</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <p class="lead">
+        This sample is GitHub Pages compatible and uses distributed OpenAPI files.
+        The docs follow a 3-level structure: <strong>Category → Sub-category → API</strong>.
+      </p>
+
+      <section class="layout">
+        <aside class="panel">
+          <h2>How this is organized</h2>
+          <ul>
+            <li><strong>Top level:</strong> Sales, Consumer</li>
+            <li><strong>Second level:</strong> Customer, Item, Ledger Entry</li>
+            <li><strong>Third level:</strong> Endpoint operations</li>
+          </ul>
+
+          <h3>Where to edit</h3>
+          <ul>
+            <li><code>docs/openapi/openapi.yaml</code> (bundled render spec for Scalar)</li>
+            <li><code>docs/openapi/distributed-index.yaml</code> (distributed $ref index)</li>
+            <li>
+              <code>docs/openapi/&lt;category&gt;/&lt;sub-category&gt;/openapi.yaml</code>
+            </li>
+          </ul>
+
+          <p class="muted">
+            Tip: open <a href="./api-reference.html">API Reference</a> to view the Scalar-powered rendered UI.
+          </p>
+        </aside>
+
+        <article class="panel">
+          <h2>API hierarchy</h2>
+
+          <details open>
+            <summary>Sales</summary>
+
+            <details open>
+              <summary>Customer</summary>
+              <ul class="api-list">
+                <li class="api-item"><span class="method get">GET</span> <code>/sales/customers</code></li>
+                <li class="api-item"><span class="method post">POST</span> <code>/sales/customers</code></li>
+                <li class="api-item"><span class="method get">GET</span> <code>/sales/customers/{customerId}</code></li>
+              </ul>
+            </details>
+
+            <details open>
+              <summary>Item</summary>
+              <ul class="api-list">
+                <li class="api-item"><span class="method get">GET</span> <code>/sales/items</code></li>
+                <li class="api-item"><span class="method get">GET</span> <code>/sales/items/{itemId}</code></li>
+              </ul>
+            </details>
+
+            <details open>
+              <summary>Ledger Entry</summary>
+              <ul class="api-list">
+                <li class="api-item"><span class="method get">GET</span> <code>/sales/ledger-entries</code></li>
+                <li class="api-item"><span class="method get">GET</span> <code>/sales/ledger-entries/{entryId}</code></li>
+              </ul>
+            </details>
+          </details>
+
+          <details open>
+            <summary>Consumer</summary>
+
+            <details open>
+              <summary>Customer</summary>
+              <ul class="api-list">
+                <li class="api-item"><span class="method get">GET</span> <code>/consumer/customers/me</code></li>
+                <li class="api-item"><span class="method patch">PATCH</span> <code>/consumer/customers/me</code></li>
+              </ul>
+            </details>
+
+            <details open>
+              <summary>Item</summary>
+              <ul class="api-list">
+                <li class="api-item"><span class="method get">GET</span> <code>/consumer/items/recommended</code></li>
+                <li class="api-item"><span class="method post">POST</span> <code>/consumer/items/{itemId}/favorite</code></li>
+              </ul>
+            </details>
+
+            <details open>
+              <summary>Ledger Entry</summary>
+              <ul class="api-list">
+                <li class="api-item"><span class="method get">GET</span> <code>/consumer/ledger-entries/rewards</code></li>
+                <li class="api-item"><span class="method get">GET</span> <code>/consumer/ledger-entries/rewards/{entryId}</code></li>
+              </ul>
+            </details>
+          </details>
+
+          <p class="note">
+            Distributed specs are kept per category/sub-category, and rendered through a bundled root spec for maximum portability.
+          </p>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sample API Reference (Scalar)</title>
+    <link rel="stylesheet" href="./assets/site.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>Sample API Reference (Scalar)</h1>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="./index.html">Docs</a>
+        <a class="active" href="./api-reference.html">API Reference</a>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="panel">
+        <h2>3-level hierarchy</h2>
+        <p class="note">
+          In the rendered reference: <strong>Sales/Consumer</strong> are top-level tag groups,
+          <strong>Customer/Item/Ledger Entry</strong> are sub-categories, and each HTTP operation is the third level.
+        </p>
+      </section>
+
+      <section class="scalar-shell" style="margin-top: 1rem">
+        <div id="scalar-api" aria-label="Scalar API Reference"></div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+    <script>
+      const specUrl = new URL('./openapi/openapi.yaml', globalThis.location.href).toString()
+
+      Scalar.createApiReference('#scalar-api', {
+        url: specUrl,
+      })
+    </script>
+  </body>
+</html>

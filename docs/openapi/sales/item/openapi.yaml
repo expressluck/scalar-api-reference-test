@@ -1,0 +1,61 @@
+openapi: 3.1.0
+info:
+  title: Sales Item APIs
+  version: 1.0.0
+paths:
+  /sales/items:
+    get:
+      tags:
+        - Sales / Item
+      operationId: listSalesItems
+      summary: List items
+      description: Returns inventory-aware item data for the sales team.
+      responses:
+        "200":
+          description: Item list response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        itemId:
+                          type: string
+                          example: ITEM-100
+                        sku:
+                          type: string
+                          example: SKU-RED-XL
+                        name:
+                          type: string
+                          example: Red Hoodie XL
+  /sales/items/{itemId}:
+    get:
+      tags:
+        - Sales / Item
+      operationId: getSalesItem
+      summary: Get item by ID
+      parameters:
+        - in: path
+          name: itemId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Item details response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  itemId:
+                    type: string
+                  sku:
+                    type: string
+                  availableQty:
+                    type: integer
+                    example: 240

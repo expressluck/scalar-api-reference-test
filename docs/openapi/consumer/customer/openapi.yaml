@@ -1,0 +1,57 @@
+openapi: 3.1.0
+info:
+  title: Consumer Customer APIs
+  version: 1.0.0
+paths:
+  /consumer/customers/me:
+    get:
+      tags:
+        - Consumer / Customer
+      operationId: getMyConsumerProfile
+      summary: Get my profile
+      description: Returns the authenticated consumer profile.
+      responses:
+        "200":
+          description: Profile response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  consumerId:
+                    type: string
+                    example: CONSUMER-202
+                  displayName:
+                    type: string
+                    example: Alex Shopper
+                  loyaltyTier:
+                    type: string
+                    example: Silver
+    patch:
+      tags:
+        - Consumer / Customer
+      operationId: updateMyConsumerProfile
+      summary: Update my profile
+      description: Partially updates profile fields for the authenticated consumer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                displayName:
+                  type: string
+                marketingOptIn:
+                  type: boolean
+      responses:
+        "200":
+          description: Updated profile response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true

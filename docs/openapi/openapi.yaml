@@ -1,0 +1,438 @@
+openapi: 3.1.0
+info:
+  title: Sample Commerce API (Bundled for Scalar)
+  version: 1.0.0
+  description: |
+    Bundled root OpenAPI for Scalar rendering.
+    Source files are distributed by category/sub-category under docs/openapi/**/openapi.yaml.
+servers:
+  - url: https://api.example.com
+    description: Sample production server
+tags:
+  - name: Sales / Customer
+    description: Sales-side customer operations.
+  - name: Sales / Item
+    description: Sales-side item operations.
+  - name: Sales / Ledger Entry
+    description: Sales-side ledger entry operations.
+  - name: Consumer / Customer
+    description: Consumer customer profile operations.
+  - name: Consumer / Item
+    description: Consumer item engagement operations.
+  - name: Consumer / Ledger Entry
+    description: Consumer rewards and ledger operations.
+x-tagGroups:
+  - name: Sales
+    tags:
+      - Sales / Customer
+      - Sales / Item
+      - Sales / Ledger Entry
+  - name: Consumer
+    tags:
+      - Consumer / Customer
+      - Consumer / Item
+      - Consumer / Ledger Entry
+paths:
+  /sales/customers:
+    get:
+      tags:
+        - Sales / Customer
+      operationId: listSalesCustomers
+      summary: List customers
+      description: Returns a paginated customer list used by sales operations.
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: Page number.
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: Number of items per page.
+      responses:
+        "200":
+          description: Customer list response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        customerId:
+                          type: string
+                          example: CUST-1001
+                        name:
+                          type: string
+                          example: Acme Corp
+                        tier:
+                          type: string
+                          example: Gold
+                  page:
+                    type: integer
+                    example: 1
+    post:
+      tags:
+        - Sales / Customer
+      operationId: createSalesCustomer
+      summary: Create customer
+      description: Creates a new sales customer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - tier
+              properties:
+                name:
+                  type: string
+                  example: New Retail Account
+                tier:
+                  type: string
+                  enum:
+                    - Bronze
+                    - Silver
+                    - Gold
+      responses:
+        "201":
+          description: Customer created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  customerId:
+                    type: string
+                    example: CUST-2450
+
+  /sales/customers/{customerId}:
+    get:
+      tags:
+        - Sales / Customer
+      operationId: getSalesCustomer
+      summary: Get customer by ID
+      parameters:
+        - in: path
+          name: customerId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Customer details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  customerId:
+                    type: string
+                  name:
+                    type: string
+                  email:
+                    type: string
+                    format: email
+
+  /sales/items:
+    get:
+      tags:
+        - Sales / Item
+      operationId: listSalesItems
+      summary: List items
+      description: Returns inventory-aware item data for the sales team.
+      responses:
+        "200":
+          description: Item list response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        itemId:
+                          type: string
+                          example: ITEM-100
+                        sku:
+                          type: string
+                          example: SKU-RED-XL
+                        name:
+                          type: string
+                          example: Red Hoodie XL
+
+  /sales/items/{itemId}:
+    get:
+      tags:
+        - Sales / Item
+      operationId: getSalesItem
+      summary: Get item by ID
+      parameters:
+        - in: path
+          name: itemId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Item details response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  itemId:
+                    type: string
+                  sku:
+                    type: string
+                  availableQty:
+                    type: integer
+                    example: 240
+
+  /sales/ledger-entries:
+    get:
+      tags:
+        - Sales / Ledger Entry
+      operationId: listSalesLedgerEntries
+      summary: List ledger entries
+      description: Returns accounting ledger entries from the sales domain.
+      parameters:
+        - in: query
+          name: fromDate
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: toDate
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: Ledger entries response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        entryId:
+                          type: string
+                          example: LEDGER-9001
+                        amount:
+                          type: number
+                          format: double
+                          example: 3499.95
+                        currency:
+                          type: string
+                          example: USD
+
+  /sales/ledger-entries/{entryId}:
+    get:
+      tags:
+        - Sales / Ledger Entry
+      operationId: getSalesLedgerEntry
+      summary: Get ledger entry by ID
+      parameters:
+        - in: path
+          name: entryId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Ledger entry details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  entryId:
+                    type: string
+                  amount:
+                    type: number
+                    format: double
+                  postedAt:
+                    type: string
+                    format: date-time
+
+  /consumer/customers/me:
+    get:
+      tags:
+        - Consumer / Customer
+      operationId: getMyConsumerProfile
+      summary: Get my profile
+      description: Returns the authenticated consumer profile.
+      responses:
+        "200":
+          description: Profile response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  consumerId:
+                    type: string
+                    example: CONSUMER-202
+                  displayName:
+                    type: string
+                    example: Alex Shopper
+                  loyaltyTier:
+                    type: string
+                    example: Silver
+    patch:
+      tags:
+        - Consumer / Customer
+      operationId: updateMyConsumerProfile
+      summary: Update my profile
+      description: Partially updates profile fields for the authenticated consumer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                displayName:
+                  type: string
+                marketingOptIn:
+                  type: boolean
+      responses:
+        "200":
+          description: Updated profile response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+
+  /consumer/items/recommended:
+    get:
+      tags:
+        - Consumer / Item
+      operationId: listRecommendedConsumerItems
+      summary: List recommended items
+      description: Returns personalized recommended items for the current consumer.
+      responses:
+        "200":
+          description: Recommended items response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        itemId:
+                          type: string
+                          example: ITEM-100
+                        reason:
+                          type: string
+                          example: Similar to recent purchases
+
+  /consumer/items/{itemId}/favorite:
+    post:
+      tags:
+        - Consumer / Item
+      operationId: favoriteConsumerItem
+      summary: Mark item as favorite
+      parameters:
+        - in: path
+          name: itemId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Favorite action result.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  favorited:
+                    type: boolean
+                    example: true
+
+  /consumer/ledger-entries/rewards:
+    get:
+      tags:
+        - Consumer / Ledger Entry
+      operationId: listConsumerRewardEntries
+      summary: List reward ledger entries
+      description: Returns reward-point ledger entries for the authenticated consumer.
+      responses:
+        "200":
+          description: Rewards ledger list response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        entryId:
+                          type: string
+                          example: REWARD-1
+                        points:
+                          type: integer
+                          example: 120
+                        type:
+                          type: string
+                          example: PurchaseBonus
+
+  /consumer/ledger-entries/rewards/{entryId}:
+    get:
+      tags:
+        - Consumer / Ledger Entry
+      operationId: getConsumerRewardEntry
+      summary: Get reward ledger entry by ID
+      parameters:
+        - in: path
+          name: entryId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Rewards ledger entry details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  entryId:
+                    type: string
+                  points:
+                    type: integer
+                  createdAt:
+                    type: string
+                    format: date-time
